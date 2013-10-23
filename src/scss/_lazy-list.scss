@@ -1,0 +1,14 @@
+@mixin lazy-list {
+    .lazy-list {
+        position: relative;
+    }
+    
+    .lazy-list-item {
+        position: absolute;
+        width: 100%;
+    }
+    
+    .lazy-list-scrolling {
+        
+    }
+}
