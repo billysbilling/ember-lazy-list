@@ -12,6 +12,8 @@ module.exports = Em.ContainerView.extend({
 
     init: function() {
         this.contentDidChange();
+        this.set('scrollContainerTop', this.get('scrollContainer').offset().top);
+        this.set('scrollContainerHeight', this.get('scrollContainer').height());
         this._super();
         this._itemViews = {};
         this._createScrollingView();
@@ -64,7 +66,7 @@ module.exports = Em.ContainerView.extend({
             scrollCt = this.get('scrollContainer'),
             rowHeight = this.get('rowHeight'),
             columns = this.get('columns'),
-            top = Math.max(0, scrollCt.offset().top - el.offset().top),
+            top = Math.max(0, this.get('scrollContainerTop') - this.get('elOffsetTop')),
             bottom = Math.min(this.get('totalHeight'), top + scrollCt.height()),
             extra = 5 * columns,
             startIndex = Math.max(0, Math.floor(top / rowHeight) * columns - extra),
