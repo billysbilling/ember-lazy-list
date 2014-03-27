@@ -1,3 +1,5 @@
+var functionProxy = require('function-proxy');
+
 module.exports = Em.ContainerView.extend({
 
     classNames: ['lazy-list'],
@@ -31,15 +33,15 @@ module.exports = Em.ContainerView.extend({
 
     didInsertElement: function() {
         this._super();
-        this.get('scrollContainer').on('scroll', Billy.proxy(this._didScroll, this));
-        $(window).on('resize', Billy.proxy(this._didResizeWindow, this));
-        this._cleanupInterval = setInterval(Billy.proxy(this._cleanup, this), 5*1000);
+        this.get('scrollContainer').on('scroll', functionProxy(this._didScroll, this));
+        $(window).on('resize', functionProxy(this._didResizeWindow, this));
+        this._cleanupInterval = setInterval(functionProxy(this._cleanup, this), 5*1000);
         Ember.run(this, this._updateViewport);
     },
     willDestroyElement: function() {
         this._super();
-        this.get('scrollContainer').off('scroll', Billy.proxy(this._didScroll, this));
-        $(window).off('resize', Billy.proxy(this._didResizeWindow, this));
+        this.get('scrollContainer').off('scroll', functionProxy(this._didScroll, this));
+        $(window).off('resize', functionProxy(this._didResizeWindow, this));
         clearInterval(this._cleanupInterval);
     },
 
