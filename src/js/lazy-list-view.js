@@ -20,7 +20,18 @@ module.exports = Em.ContainerView.extend({
     },
 
     scrollContainer: function() {
-        return $('.section-body');
+        var el = this.get('element'),
+            $el,
+            overflow;
+        while (el !== document.body) {
+            $el = $(el);
+            overflow = $el.css('overflow-y') || $el.css('overflow');
+            if (overflow === 'scroll' || overflow === 'auto') {
+                return $el;
+            }
+            el = el.parentNode;
+        }
+        return $('body');
     }.property(),
 
     totalHeight: function() {
