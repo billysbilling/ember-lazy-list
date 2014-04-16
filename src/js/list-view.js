@@ -11,6 +11,7 @@ module.exports = Ember.CollectionView.extend({
     },
 
     createChildController: function(properties) {
+        properties.container = this.container;
         var itemControllerClass = this.get('itemControllerClass') || Em.ObjectController;
         return itemControllerClass.create(properties);
     }

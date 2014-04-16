@@ -127,6 +127,7 @@ module.exports = Em.ContainerView.extend({
         }
     },
     createChildController: function(properties) {
+        properties.container = this.container;
         var itemControllerClass = this.get('itemControllerClass') || Em.ObjectController;
         return itemControllerClass.create(properties);
     },
