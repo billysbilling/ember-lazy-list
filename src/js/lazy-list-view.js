@@ -47,7 +47,7 @@ module.exports = Em.ContainerView.extend({
         this.get('scrollContainer').on('scroll', functionProxy(this._didScroll, this));
         $(window).on('resize', functionProxy(this._didResizeWindow, this));
         this._cleanupInterval = setInterval(functionProxy(this._cleanup, this), 5*1000);
-        Ember.run(this, this._updateViewport);
+        Ember.run.join(this, this._updateViewport);
     },
     willDestroyElement: function() {
         this._super();
@@ -62,11 +62,11 @@ module.exports = Em.ContainerView.extend({
     },
 
     _didScroll: function(e) {
-        Ember.run(this, this._updateViewport);
+        Ember.run.join(this, this._updateViewport);
     },
 
     _didResizeWindow: function() {
-        Ember.run(this, this._updateViewport);
+        Ember.run.join(this, this._updateViewport);
     },
 
     _updateViewport: function() {
@@ -117,7 +117,6 @@ module.exports = Em.ContainerView.extend({
             itemView = this.createChildView(this.get('itemViewClass'), {
                 controller: controller,
                 context: controller,
-                content: content,
                 contentIndex: index,
                 top: this._topForIndex(index),
                 left: this._leftForIndex(index)
@@ -187,7 +186,7 @@ module.exports = Em.ContainerView.extend({
         if (content) {
             content.addArrayObserver(this);
         }
-        if (this.get('state') == 'inDOM') {
+        if (this.get('_state') == 'inDOM') {
             this._destroyAllItemViews();
             this._updateViewport();
         }
