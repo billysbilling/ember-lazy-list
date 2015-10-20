@@ -73,6 +73,10 @@ module.exports = Em.ContainerView.extend({
         if (this.get('isDestroying')) {
             return;
         }
+        var content = this.get('content')
+        if (!content) {
+            return
+        }
         var el = this.$(),
             scrollCt = this.get('scrollContainer'),
             rowHeight = this.get('rowHeight'),
@@ -82,7 +86,6 @@ module.exports = Em.ContainerView.extend({
             extra = 5 * columns,
             startIndex = Math.max(0, Math.floor(top / rowHeight) * columns - extra),
             endIndex = Math.ceil(bottom / rowHeight) * columns + extra,
-            content = this.get('content'),
             length = content.get('length'),
             pageSize = content.get('pageSize'),
             i;
